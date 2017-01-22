@@ -19650,7 +19650,7 @@ open class SwiftParser: Parser {
 		 		while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
 		 			if ( _alt==1 ) {
 		 				setState(2369)
-		 				if (!(_input.get(_input.index()-1).getType()!=WS)) {
+		 				if (!(try _input.get(_input.index()-1).getType() != SwiftParser.Tokens.WS.rawValue)) {
 		 				    throw try ANTLRException.recognition(e:FailedPredicateException(self, "_input.get(_input.index()-1).getType()!=WS"))
 		 				}
 		 				setState(2370)
@@ -19675,7 +19675,7 @@ open class SwiftParser: Parser {
 		 		while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
 		 			if ( _alt==1 ) {
 		 				setState(2377)
-		 				if (!(_input.get(_input.index()-1).getType()!=WS)) {
+		 				if (!(try _input.get(_input.index()-1).getType() != SwiftParser.Tokens.WS.rawValue)) {
 		 				    throw try ANTLRException.recognition(e:FailedPredicateException(self, "_input.get(_input.index()-1).getType()!=WS"))
 		 				}
 		 				setState(2378)
@@ -20545,8 +20545,8 @@ open class SwiftParser: Parser {
 	}
 	private func operator_decl_sempred(_ _localctx: Operator_declContext!,  _ predIndex: Int) throws -> Bool {
 		switch (predIndex) {
-		    case 31:return _input.get(_input.index()-1).getType()!=WS
-		    case 32:return _input.get(_input.index()-1).getType()!=WS
+		    case 31:return try _input.get(_input.index()-1).getType() != SwiftParser.Tokens.WS.rawValue
+		    case 32:return try _input.get(_input.index()-1).getType() != SwiftParser.Tokens.WS.rawValue
 		    default: return true
 		}
 	}
