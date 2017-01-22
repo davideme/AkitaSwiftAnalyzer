@@ -14,7 +14,20 @@ func main(arguments: [String]) {
     do {
         let parser = try SwiftParser(stream)
         let tree = try parser.top_level()
-        let visitor = SwiftVisitor<String>()
+        let visitor = Visitor()
+
+        let diagnosticAnalyzers = [
+            IdentifiersShouldNotContainTypeNames()
+        ]
+
+        let analysisContext = AnalyzerAnalysisContext(visitor: visitor)
+
+        for diagnosticAnalyzer in diagnosticAnalyzers {
+            if diagnosticAnalyzer.diagnostic.isEnabledByDefault {
+                diagnosticAnalyzer.initialize(context: analysisContext)
+            }
+        }
+
         visitor.visitTop_level(tree)
     } catch {
         print(error.localizedDescription)
