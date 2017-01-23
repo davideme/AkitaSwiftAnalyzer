@@ -12,6 +12,9 @@ struct SyntaxNodeAnalysisContext {
 }
 enum SyntaxKind: Int {
     case Statement
+    case ConstantDeclaration
+    case VariableDeclaration
+    case FunctionDeclaration
 }
 
 protocol AnalysisContext {

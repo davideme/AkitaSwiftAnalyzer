@@ -20,6 +20,31 @@ class Visitor: SwiftVisitor<Void> {
             }
         }
     }
+
+    override func visitConstant_declaration(_ ctx: SwiftParser.Constant_declarationContext) -> () {
+
+        if let actionsForKind = actions[SyntaxKind.ConstantDeclaration] {
+            for action in actionsForKind {
+                action(SyntaxNodeAnalysisContext())
+            }
+        }
+    }
+
+    override func visitVariable_declaration(_ ctx: SwiftParser.Variable_declarationContext) -> () {
+        if let actionsForKind = actions[SyntaxKind.VariableDeclaration] {
+            for action in actionsForKind {
+                action(SyntaxNodeAnalysisContext())
+            }
+        }
+    }
+
+    override func visitFunction_declaration(_ ctx: SwiftParser.Function_declarationContext) -> () {
+        if let actionsForKind = actions[SyntaxKind.FunctionDeclaration] {
+            for action in actionsForKind {
+                action(SyntaxNodeAnalysisContext())
+            }
+        }
+    }
 }
 
 struct AnalyzerAnalysisContext: AnalysisContext {
