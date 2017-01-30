@@ -15,8 +15,13 @@ open class Visitor: SwiftVisitor<String> {
     var diagnostics: [Diagnostic] = []
 
     @discardableResult
+    open override func visit(_ tree: ParseTree) -> String? {
+        return self .visitTop_level(tree as! SwiftParser.Top_levelContext)
+    }
+
+    @discardableResult
     open override func visitTop_level(_ ctx: SwiftParser.Top_levelContext) -> String {
-        return ctx.toStringTree()
+        return ctx.getText()
     }
 
     open override func visitStatement(_ ctx: SwiftParser.StatementContext) -> String {
@@ -26,7 +31,7 @@ open class Visitor: SwiftVisitor<String> {
                 action(SyntaxNodeAnalysisContext())
             }
         }
-        return ctx.toStringTree()
+        return ctx.getText()
     }
 
     open override func visitConstant_declaration(_ ctx: SwiftParser.Constant_declarationContext) -> String {
@@ -36,7 +41,7 @@ open class Visitor: SwiftVisitor<String> {
                 action(SyntaxNodeAnalysisContext())
             }
         }
-        return ctx.toStringTree()
+        return ctx.getText()
     }
 
     open override func visitVariable_declaration(_ ctx: SwiftParser.Variable_declarationContext) -> String {
@@ -45,7 +50,7 @@ open class Visitor: SwiftVisitor<String> {
                 action(SyntaxNodeAnalysisContext())
             }
         }
-        return ctx.toStringTree()
+        return ctx.getText()
     }
 
     open override func visitFunction_declaration(_ ctx: SwiftParser.Function_declarationContext) -> String {
@@ -54,6 +59,6 @@ open class Visitor: SwiftVisitor<String> {
                 action(SyntaxNodeAnalysisContext())
             }
         }
-        return ctx.toStringTree()
+        return ctx.getText()
     }
 }

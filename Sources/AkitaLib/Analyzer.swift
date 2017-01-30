@@ -44,7 +44,7 @@ public struct Analyzer {
                 }
             }
 
-            visitor.visitTop_level(tree)
+            visitor.visit(tree)
 
             return visitor.diagnostics
         } catch {
