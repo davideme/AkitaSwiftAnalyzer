@@ -4,7 +4,7 @@ import AkitaLib
 
 class SwiftAnalyzerTests: XCTestCase {
     func testExample() {
-        Analyzer().analyzeSourceCode(sourceCode:
+        let diagnostics = Analyzer().analyzeSourceCode(sourceCode:
         "class Bar" +
         "{" +
         "    func barMethod(int: Int)" +
@@ -12,7 +12,8 @@ class SwiftAnalyzerTests: XCTestCase {
         "    }" +
         "}")
 
-        XCTAssertEqual("", "Hello, World!")
+        let expectation: [Diagnostic] = []
+        XCTAssertEqual(diagnostics, expectation)
     }
 
 
@@ -22,4 +23,3 @@ class SwiftAnalyzerTests: XCTestCase {
         ]
     }
 }
-

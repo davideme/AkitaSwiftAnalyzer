@@ -14,17 +14,17 @@ public struct Analyzer {
     public init() {
     }
 
-    public func analyzeFile(fileName: String) {
+    public func analyzeFile(fileName: String) -> [Diagnostic] {
         let input = ANTLRFileStream(fileName)
-        analyze(input: input)
+        return analyze(input: input)
     }
 
-    public func analyzeSourceCode(sourceCode: String) {
+    public func analyzeSourceCode(sourceCode: String) -> [Diagnostic] {
         let input = ANTLRInputStream(sourceCode)
-        analyze(input: input)
+        return analyze(input: input)
     }
 
-    func analyze(input: CharStream) {
+    func analyze(input: CharStream) -> [Diagnostic] {
         let lexer = SwiftLexer(input)
         let stream = CommonTokenStream(lexer)
         do {
@@ -45,8 +45,11 @@ public struct Analyzer {
             }
 
             visitor.visitTop_level(tree)
+
+            return visitor.diagnostics
         } catch {
             print(error.localizedDescription)
+            return []
         }
     }
 }
