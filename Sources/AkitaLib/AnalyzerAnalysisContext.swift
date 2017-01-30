@@ -19,6 +19,7 @@ struct AnalyzerAnalysisContext: AnalysisContext {
             }
             if var actionsForKind = visitor.actions[syntaxKind] {
                 actionsForKind.append(action)
+                visitor.actions[syntaxKind] = actionsForKind
             }
         }
     }

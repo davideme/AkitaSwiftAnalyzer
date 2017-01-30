@@ -8,7 +8,9 @@
 
 import Foundation
 
-struct SyntaxNodeAnalysisContext {
+enum SyntaxNodeAnalysisContext {
+    case Unkown
+    case Function(body: String?, head: String?, name: String?, signature: String?)
 }
 enum SyntaxKind: Int {
     case Statement

@@ -10,55 +10,52 @@ import Foundation
 import Antlr4
 import Parser
 
-open class Visitor: SwiftVisitor<String> {
+open class Visitor: SwiftBaseVisitor<String> {
     var actions: [SyntaxKind: [(SyntaxNodeAnalysisContext) -> Void]] = [:]
     var diagnostics: [Diagnostic] = []
 
     @discardableResult
-    open override func visit(_ tree: ParseTree) -> String? {
-        return self .visitTop_level(tree as! SwiftParser.Top_levelContext)
+    open override func visitTop_level(_ ctx: SwiftParser.Top_levelContext) -> String? {
+        return super.visitTop_level(ctx)
     }
 
-    @discardableResult
-    open override func visitTop_level(_ ctx: SwiftParser.Top_levelContext) -> String {
-        return ctx.getText()
-    }
-
-    open override func visitStatement(_ ctx: SwiftParser.StatementContext) -> String {
+    open override func visitStatement(_ ctx: SwiftParser.StatementContext) -> String? {
 
         if let actionsForKind = actions[SyntaxKind.Statement] {
             for action in actionsForKind {
-                action(SyntaxNodeAnalysisContext())
+                action(.Unkown)
             }
         }
-        return ctx.getText()
+        return super.visitStatement(ctx)
     }
 
-    open override func visitConstant_declaration(_ ctx: SwiftParser.Constant_declarationContext) -> String {
+    open override func visitConstant_declaration(_ ctx: SwiftParser.Constant_declarationContext) -> String? {
 
         if let actionsForKind = actions[SyntaxKind.ConstantDeclaration] {
             for action in actionsForKind {
-                action(SyntaxNodeAnalysisContext())
+                action(.Unkown)
             }
         }
-        return ctx.getText()
+        return super.visitConstant_declaration(ctx)
     }
 
-    open override func visitVariable_declaration(_ ctx: SwiftParser.Variable_declarationContext) -> String {
+    open override func visitVariable_declaration(_ ctx: SwiftParser.Variable_declarationContext) -> String? {
         if let actionsForKind = actions[SyntaxKind.VariableDeclaration] {
             for action in actionsForKind {
-                action(SyntaxNodeAnalysisContext())
+                action(.Unkown)
             }
         }
-        return ctx.getText()
+        return super.visitVariable_declaration(ctx)
     }
 
-    open override func visitFunction_declaration(_ ctx: SwiftParser.Function_declarationContext) -> String {
+    open override func visitFunction_declaration(_ ctx: SwiftParser.Function_declarationContext) -> String? {
+        let function = SyntaxNodeAnalysisContext.Function(body: ctx.function_body()?.getText(), head: ctx.function_head()?.getText(), name: ctx.function_name()?.getText(), signature: ctx.function_signature()?.getText())
+
         if let actionsForKind = actions[SyntaxKind.FunctionDeclaration] {
             for action in actionsForKind {
-                action(SyntaxNodeAnalysisContext())
+                action(function)
             }
         }
-        return ctx.getText()
+        return super.visitFunction_declaration(ctx)
     }
 }
