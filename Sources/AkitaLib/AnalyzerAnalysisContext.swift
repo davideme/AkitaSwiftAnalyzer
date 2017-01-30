@@ -7,43 +7,50 @@
 //
 
 import Foundation
-import parser
+import Parser
 
-class Visitor: SwiftVisitor<Void> {
+open class Visitor: SwiftVisitor<String> {
     var actions: [SyntaxKind: [(SyntaxNodeAnalysisContext) -> Void]] = [:]
 
-    override func visitStatement(_ ctx: SwiftParser.StatementContext) -> Void {
+    open override func visitTop_level(_ ctx: SwiftParser.Top_levelContext) -> String {
+        return ctx.toStringTree()
+    }
+    open override func visitStatement(_ ctx: SwiftParser.StatementContext) -> String {
 
         if let actionsForKind = actions[SyntaxKind.Statement] {
             for action in actionsForKind {
                 action(SyntaxNodeAnalysisContext())
             }
         }
+        return ctx.toStringTree()
     }
 
-    override func visitConstant_declaration(_ ctx: SwiftParser.Constant_declarationContext) -> () {
+    open override func visitConstant_declaration(_ ctx: SwiftParser.Constant_declarationContext) -> String {
 
         if let actionsForKind = actions[SyntaxKind.ConstantDeclaration] {
             for action in actionsForKind {
                 action(SyntaxNodeAnalysisContext())
             }
         }
+        return ctx.toStringTree()
     }
 
-    override func visitVariable_declaration(_ ctx: SwiftParser.Variable_declarationContext) -> () {
+    open override func visitVariable_declaration(_ ctx: SwiftParser.Variable_declarationContext) -> String {
         if let actionsForKind = actions[SyntaxKind.VariableDeclaration] {
             for action in actionsForKind {
                 action(SyntaxNodeAnalysisContext())
             }
         }
+        return ctx.toStringTree()
     }
 
-    override func visitFunction_declaration(_ ctx: SwiftParser.Function_declarationContext) -> () {
+    open override func visitFunction_declaration(_ ctx: SwiftParser.Function_declarationContext) -> String {
         if let actionsForKind = actions[SyntaxKind.FunctionDeclaration] {
             for action in actionsForKind {
                 action(SyntaxNodeAnalysisContext())
             }
         }
+        return ctx.toStringTree()
     }
 }
 

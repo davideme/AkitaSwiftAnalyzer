@@ -1,6 +1,7 @@
 import Antlr4
-import parser
+import Parser
 import Foundation
+import AkitaLib
 
 func main(arguments: [String]) {
     guard arguments.count > 1 else {
@@ -8,30 +9,10 @@ func main(arguments: [String]) {
         return
     }
 
-    let input = ANTLRFileStream(arguments[1])
-    let lexer = SwiftLexer(input)
-    let stream = CommonTokenStream(lexer)
-    do {
-        let parser = try SwiftParser(stream)
-        let tree = try parser.top_level()
-        let visitor = Visitor()
-
-        let diagnosticAnalyzers = [
-            IdentifiersShouldNotContainTypeNames()
-        ]
-
-        let analysisContext = AnalyzerAnalysisContext(visitor: visitor)
-
-        for diagnosticAnalyzer in diagnosticAnalyzers {
-            if diagnosticAnalyzer.diagnostic.isEnabledByDefault {
-                diagnosticAnalyzer.initialize(context: analysisContext)
-            }
-        }
-
-        visitor.visitTop_level(tree)
-    } catch {
-        print(error.localizedDescription)
-    }
+    let analyzer = Analyzer()
+    analyzer.analyzeFile(fileName: arguments[1])
 }
+
+
 
 main(arguments: CommandLine.arguments)

@@ -1,11 +1,18 @@
 import XCTest
-@testable import SwiftAnalyzer
+import Antlr4
+import AkitaLib
 
 class SwiftAnalyzerTests: XCTestCase {
     func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        XCTAssertEqual(SwiftAnalyzer().text, "Hello, World!")
+        Analyzer().analyzeSourceCode(sourceCode:
+        "class Bar" +
+        "{" +
+        "    func barMethod(int: Int)" +
+        "    {" +
+        "    }" +
+        "}")
+
+        XCTAssertEqual("", "Hello, World!")
     }
 
 
@@ -15,3 +22,4 @@ class SwiftAnalyzerTests: XCTestCase {
         ]
     }
 }
+
