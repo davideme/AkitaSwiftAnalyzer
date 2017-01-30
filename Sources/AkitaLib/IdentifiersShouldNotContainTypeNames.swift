@@ -19,7 +19,9 @@ class IdentifiersShouldNotContainTypeNames : DiagnosticAnalyzer {
 
     static func AnalyzeNode(context: SyntaxNodeAnalysisContext) {
         switch context {
-        case let .Function(body, head, name, signature): break
+        case let .Function(body, head, name, paramaters):
+            // Test signature
+            break
 
         default: break
         }

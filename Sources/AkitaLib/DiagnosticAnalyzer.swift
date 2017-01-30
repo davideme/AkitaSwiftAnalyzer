@@ -8,9 +8,16 @@
 
 import Foundation
 
+struct Parameter {
+    let defaultArgument: String?
+    let externalName: String?
+    let localName: String?
+    let typeAnnotation: String?
+}
+
 enum SyntaxNodeAnalysisContext {
     case Unkown
-    case Function(body: String?, head: String?, name: String?, signature: String?)
+    case Function(body: String?, head: String?, name: String?, parameters: [Parameter])
 }
 enum SyntaxKind: Int {
     case Statement

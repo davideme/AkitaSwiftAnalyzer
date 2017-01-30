@@ -49,7 +49,15 @@ open class Visitor: SwiftBaseVisitor<String> {
     }
 
     open override func visitFunction_declaration(_ ctx: SwiftParser.Function_declarationContext) -> String? {
-        let function = SyntaxNodeAnalysisContext.Function(body: ctx.function_body()?.getText(), head: ctx.function_head()?.getText(), name: ctx.function_name()?.getText(), signature: ctx.function_signature()?.getText())
+        let function = SyntaxNodeAnalysisContext.Function(
+            body: ctx.function_body()?.getText(),
+            head: ctx.function_head()?.getText(),
+            name: ctx.function_name()?.getText(),
+            parameters: (ctx.function_signature()?.parameter_clauses()?.parameter_clause()?.parameter_list()?.parameter().flatMap {
+                Parameter(
+                    defaultArgument: $0.default_argument_clause()?.getText(),
+                    externalName: $0.external_parameter_name()?.getText(), localName: $0.local_parameter_name()?.getText(), typeAnnotation: $0.type_annotation()?.type()?.getText())
+                })!)
 
         if let actionsForKind = actions[SyntaxKind.FunctionDeclaration] {
             for action in actionsForKind {
