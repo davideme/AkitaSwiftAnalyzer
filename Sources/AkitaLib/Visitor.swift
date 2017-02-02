@@ -57,7 +57,7 @@ open class Visitor: SwiftBaseVisitor<String> {
                 Parameter(
                     defaultArgument: $0.default_argument_clause()?.getText(),
                     externalName: $0.external_parameter_name()?.getText(), localName: $0.local_parameter_name()?.getText(), typeAnnotation: $0.type_annotation()?.type()?.getText())
-                })!)
+                }) ?? [])
 
         if let actionsForKind = actions[SyntaxKind.FunctionDeclaration] {
             for action in actionsForKind {
