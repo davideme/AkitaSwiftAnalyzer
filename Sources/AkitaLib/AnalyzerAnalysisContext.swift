@@ -9,7 +9,7 @@
 import Foundation
 import Parser
 
-struct AnalyzerAnalysisContext: AnalysisContext {
+class AnalyzerAnalysisContext: AnalysisContext {
     let visitor: Visitor
     private(set) var diagnostics: [Diagnostic] = []
 
@@ -29,7 +29,7 @@ struct AnalyzerAnalysisContext: AnalysisContext {
         }
     }
 
-    mutating func reportDiagnostic(diagnostic: Diagnostic) {
+    func reportDiagnostic(diagnostic: Diagnostic) {
         self.diagnostics.append(diagnostic)
     }
 }

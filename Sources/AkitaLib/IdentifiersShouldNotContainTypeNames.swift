@@ -13,20 +13,20 @@ class IdentifiersShouldNotContainTypeNames : DiagnosticAnalyzer {
     private var context: AnalysisContext
 
     let typesIdentifiers = [
-        "Int8",
-        "UInt8",
-        "Int16",
-        "UInt16",
-        "Int32",
-        "UInt32",
-        "Int64",
-        "UInt64",
-        "Int",
-        "UInt",
-        "Double",
-        "Float",
-        "Bool",
-        "String"
+        "int8",
+        "uint8",
+        "int16",
+        "uint16",
+        "int32",
+        "uint32",
+        "int64",
+        "uint64",
+        "int",
+        "uint",
+        "double",
+        "float",
+        "bool",
+        "string"
     ]
 
     var diagnostic: DiagnosticDescriptor = DiagnosticDescriptor(id: "", title: "", description: "", isEnabledByDefault: true)
@@ -50,7 +50,7 @@ class IdentifiersShouldNotContainTypeNames : DiagnosticAnalyzer {
                     return
                 }
 
-                if self.typesIdentifiers.contains(externalName) {
+                if self.typesIdentifiers.contains(externalName.lowercased()) {
                     let diagnostic =
                         Diagnostic(location: "", severity: .warning, descriptor: "", messageArgs: [""], ruleDescription: RuleDescription(name: "", identifier: ""))
                     self.context.reportDiagnostic(diagnostic: diagnostic)
