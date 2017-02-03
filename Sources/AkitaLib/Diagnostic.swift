@@ -13,7 +13,7 @@ public struct Diagnostic: Equatable {
     let severity: Severity
     let descriptor: String
     let messageArgs: [String]
-    let ruleDescription: RuleDescription
+    let diagnosticDescriptor: DiagnosticDescriptor
     var reason: String {
         return String(format: descriptor, arguments: messageArgs)
     }

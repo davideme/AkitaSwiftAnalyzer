@@ -39,7 +39,7 @@ struct DiagnosticDescriptor {
 }
 
 protocol DiagnosticAnalyzer {
-    var diagnostic: DiagnosticDescriptor { get }
+    var diagnosticDescriptor: DiagnosticDescriptor { get }
 
     /// Called once at session start to register actions in the analysis context.
     func initialize()

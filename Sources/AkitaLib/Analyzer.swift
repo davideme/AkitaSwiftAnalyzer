@@ -40,7 +40,7 @@ public struct Analyzer {
             ]
 
             for diagnosticAnalyzer in diagnosticAnalyzers {
-                if diagnosticAnalyzer.diagnostic.isEnabledByDefault {
+                if diagnosticAnalyzer.diagnosticDescriptor.isEnabledByDefault {
                     diagnosticAnalyzer.initialize()
                 }
             }

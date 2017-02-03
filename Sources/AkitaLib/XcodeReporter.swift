@@ -21,9 +21,9 @@ public struct XcodeReporter {
         return [
             "\(diagnostic.location): ",
             "\(diagnostic.severity.rawValue): ",
-            "\(diagnostic.ruleDescription.name) Diagnostic: ",
+            "\(diagnostic.diagnosticDescriptor.title) Diagnostic: ",
             diagnostic.reason,
-            " (\(diagnostic.ruleDescription.identifier))"
+            " (\(diagnostic.diagnosticDescriptor.id))"
             ].joined()
     }
 }

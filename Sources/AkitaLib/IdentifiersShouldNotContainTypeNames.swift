@@ -29,7 +29,7 @@ class IdentifiersShouldNotContainTypeNames : DiagnosticAnalyzer {
         "string"
     ]
 
-    var diagnostic: DiagnosticDescriptor = DiagnosticDescriptor(id: "", title: "", description: "", isEnabledByDefault: true)
+    let diagnosticDescriptor: DiagnosticDescriptor = DiagnosticDescriptor(id: "", title: "", description: "", isEnabledByDefault: true)
 
     init(context: AnalysisContext) {
         self.context = context
@@ -52,7 +52,7 @@ class IdentifiersShouldNotContainTypeNames : DiagnosticAnalyzer {
 
                 if self.typesIdentifiers.contains(externalName.lowercased()) {
                     let diagnostic =
-                        Diagnostic(location: "", severity: .warning, descriptor: "", messageArgs: [""], ruleDescription: RuleDescription(name: "", identifier: ""))
+                        Diagnostic(location: "", severity: .warning, descriptor: "", messageArgs: [""], diagnosticDescriptor: diagnosticDescriptor)
                     self.context.reportDiagnostic(diagnostic: diagnostic)
                 }
             }
