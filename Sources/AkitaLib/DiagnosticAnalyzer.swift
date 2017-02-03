@@ -36,6 +36,7 @@ struct DiagnosticDescriptor {
     let title: String
     let description: String
     let isEnabledByDefault: Bool
+    let severity: Severity
 }
 
 protocol DiagnosticAnalyzer {

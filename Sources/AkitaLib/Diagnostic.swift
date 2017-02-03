@@ -10,12 +10,10 @@ import Foundation
 
 public struct Diagnostic: Equatable {
     let location: String
-    let severity: Severity
-    let descriptor: String
     let messageArgs: [String]
     let diagnosticDescriptor: DiagnosticDescriptor
     var reason: String {
-        return String(format: descriptor, arguments: messageArgs)
+        return String(format: diagnosticDescriptor.description, arguments: messageArgs)
     }
 
     public static func ==(lhs: Diagnostic, rhs: Diagnostic) -> Bool {

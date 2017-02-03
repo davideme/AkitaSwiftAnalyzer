@@ -20,7 +20,7 @@ public struct XcodeReporter {
         // {full_path_to_file}{:line}{:character}: {error,warning}: {content}
         return [
             "\(diagnostic.location): ",
-            "\(diagnostic.severity.rawValue): ",
+            "\(diagnostic.diagnosticDescriptor.severity.rawValue): ",
             "\(diagnostic.diagnosticDescriptor.title) Diagnostic: ",
             diagnostic.reason,
             " (\(diagnostic.diagnosticDescriptor.id))"
