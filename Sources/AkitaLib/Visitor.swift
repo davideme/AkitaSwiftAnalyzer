@@ -12,7 +12,6 @@ import Parser
 
 open class Visitor: SwiftBaseVisitor<String> {
     var actions: [SyntaxKind: [(SyntaxNodeAnalysisContext) -> Void]] = [:]
-    var diagnostics: [Diagnostic] = []
 
     @discardableResult
     open override func visitTop_level(_ ctx: SwiftParser.Top_levelContext) -> String? {

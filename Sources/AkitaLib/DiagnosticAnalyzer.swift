@@ -28,6 +28,7 @@ enum SyntaxKind: Int {
 
 protocol AnalysisContext {
     func registerSymbolAction(action: @escaping (SyntaxNodeAnalysisContext) -> Void,syntaxKinds: SyntaxKind...)
+    mutating func reportDiagnostic(diagnostic: Diagnostic)
 }
 
 struct DiagnosticDescriptor {
@@ -41,5 +42,5 @@ protocol DiagnosticAnalyzer {
     var diagnostic: DiagnosticDescriptor { get }
 
     /// Called once at session start to register actions in the analysis context.
-    func initialize(context: AnalysisContext)
+    func initialize()
 }

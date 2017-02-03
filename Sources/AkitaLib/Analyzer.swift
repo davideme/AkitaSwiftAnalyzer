@@ -29,24 +29,25 @@ public struct Analyzer {
         let stream = CommonTokenStream(lexer)
         do {
             let parser = try SwiftParser(stream)
+            parser.getInterpreter().setPredictionMode(.LL)
             let tree = try parser.top_level()
             let visitor = Visitor()
 
-            let diagnosticAnalyzers = [
-                IdentifiersShouldNotContainTypeNames()
-            ]
-
             let analysisContext = AnalyzerAnalysisContext(visitor: visitor)
+
+            let diagnosticAnalyzers = [
+                IdentifiersShouldNotContainTypeNames(context: analysisContext)
+            ]
 
             for diagnosticAnalyzer in diagnosticAnalyzers {
                 if diagnosticAnalyzer.diagnostic.isEnabledByDefault {
-                    diagnosticAnalyzer.initialize(context: analysisContext)
+                    diagnosticAnalyzer.initialize()
                 }
             }
 
             visitor.visit(tree)
 
-            return visitor.diagnostics
+            return analysisContext.diagnostics
         } catch {
             print(error.localizedDescription)
             return []

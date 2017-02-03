@@ -10,7 +10,9 @@ func main(arguments: [String]) {
     }
 
     let analyzer = Analyzer()
-    analyzer.analyzeFile(fileName: arguments[1])
+    let diagnostics = analyzer.analyzeFile(fileName: arguments[1])
+
+    print(XcodeReporter.generateReport(diagnostics))
 }
 
 

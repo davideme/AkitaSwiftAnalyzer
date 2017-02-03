@@ -11,6 +11,11 @@ import Parser
 
 struct AnalyzerAnalysisContext: AnalysisContext {
     let visitor: Visitor
+    private(set) var diagnostics: [Diagnostic] = []
+
+    init(visitor: Visitor) {
+        self.visitor = visitor
+    }
 
     func registerSymbolAction(action: @escaping (SyntaxNodeAnalysisContext) -> Void, syntaxKinds: SyntaxKind...) {
         for syntaxKind in syntaxKinds {
@@ -22,5 +27,9 @@ struct AnalyzerAnalysisContext: AnalysisContext {
                 visitor.actions[syntaxKind] = actionsForKind
             }
         }
+    }
+
+    mutating func reportDiagnostic(diagnostic: Diagnostic) {
+        self.diagnostics.append(diagnostic)
     }
 }

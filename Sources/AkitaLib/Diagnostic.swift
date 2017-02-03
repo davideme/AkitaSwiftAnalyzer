@@ -9,11 +9,26 @@
 import Foundation
 
 public struct Diagnostic: Equatable {
-    let descriptor: String
     let location: String
+    let severity: Severity
+    let descriptor: String
     let messageArgs: [String]
+    let ruleDescription: RuleDescription
+    var reason: String {
+        return String(format: descriptor, arguments: messageArgs)
+    }
 
     public static func ==(lhs: Diagnostic, rhs: Diagnostic) -> Bool {
         return true
     }
+}
+
+enum Severity: String {
+    case warning
+    case error
+}
+
+struct RuleDescription {
+    let name: String
+    let identifier: String
 }

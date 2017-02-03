@@ -10,6 +10,8 @@ import Foundation
 
 class IdentifiersShouldNotContainTypeNames : DiagnosticAnalyzer {
 
+    private var context: AnalysisContext
+
     let typesIdentifiers = [
         "Int8",
         "UInt8",
@@ -28,19 +30,30 @@ class IdentifiersShouldNotContainTypeNames : DiagnosticAnalyzer {
     ]
 
     var diagnostic: DiagnosticDescriptor = DiagnosticDescriptor(id: "", title: "", description: "", isEnabledByDefault: true)
+
+    init(context: AnalysisContext) {
+        self.context = context
+    }
+
     /// Called once at session start to register actions in the analysis context.
-    func initialize(context: AnalysisContext) {
+    func initialize() {
         context.registerSymbolAction(action: self.AnalyzeNode, syntaxKinds: SyntaxKind.FunctionDeclaration, SyntaxKind.ConstantDeclaration, SyntaxKind.VariableDeclaration)
     }
 
-    func AnalyzeNode(context:
+    func AnalyzeNode(syntaxNodeAnalysisContext:
         SyntaxNodeAnalysisContext) {
-        switch context {
-        case let .Function(body, head, name, paramaters):
+        switch syntaxNodeAnalysisContext {
+        case let .Function(_, _, _, paramaters):
 
             paramaters.forEach{
-                if self.typesIdentifiers.contains($0.externalName!) {
-                    Diagnostic()
+                guard let externalName = $0.externalName else {
+                    return
+                }
+
+                if self.typesIdentifiers.contains(externalName) {
+                    let diagnostic =
+                        Diagnostic(location: "", severity: .warning, descriptor: "", messageArgs: [""], ruleDescription: RuleDescription(name: "", identifier: ""))
+                    self.context.reportDiagnostic(diagnostic: diagnostic)
                 }
             }
             break
