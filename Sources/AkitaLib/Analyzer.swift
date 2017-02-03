@@ -35,12 +35,14 @@ public struct Analyzer {
 
             let analysisContext = AnalyzerAnalysisContext(visitor: visitor)
 
-            let diagnosticAnalyzers = [
-                IdentifiersShouldNotContainTypeNames(context: analysisContext)
+            let diagnosticAnalyzerTypes = [
+                IdentifiersShouldNotContainTypeNames.self
             ]
 
-            for diagnosticAnalyzer in diagnosticAnalyzers {
-                if diagnosticAnalyzer.diagnosticDescriptor.isEnabledByDefault {
+            for diagnosticAnalyzerType in diagnosticAnalyzerTypes {
+
+                if diagnosticAnalyzerType.diagnosticDescriptor.isEnabledByDefault {
+                    let diagnosticAnalyzer = diagnosticAnalyzerType.init(context: analysisContext)
                     diagnosticAnalyzer.initialize()
                 }
             }

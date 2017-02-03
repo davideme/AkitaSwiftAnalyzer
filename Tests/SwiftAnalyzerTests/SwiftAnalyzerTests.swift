@@ -12,7 +12,7 @@ class SwiftAnalyzerTests: XCTestCase {
                 "    }" +
             "}")
         let expectation: [Diagnostic] = [
-            Diagnostic(location: "", messageArgs: ["int"], diagnosticDescriptor: DiagnosticDescriptor(id: "", title: "", description: "", isEnabledByDefault: true, severity: .warning))
+            Diagnostic(location: "", messageArgs: ["int"], diagnosticDescriptor: IdentifiersShouldNotContainTypeNames.diagnosticDescriptor)
         ]
         XCTAssertEqual(diagnostics, expectation)
     }
