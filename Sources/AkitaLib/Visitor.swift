@@ -53,9 +53,49 @@ open class Visitor: SwiftBaseVisitor<String> {
             head: ctx.function_head()?.getText(),
             name: ctx.function_name()?.getText(),
             parameters: (ctx.function_signature()?.parameter_clauses()?.parameter_clause()?.parameter_list()?.parameter().flatMap {
-                Parameter(
-                    defaultArgument: $0.default_argument_clause()?.getText(),
-                    externalName: $0.external_parameter_name()?.getText(), localName: $0.local_parameter_name()?.getText(), typeAnnotation: $0.type_annotation()?.type()?.getText())
+
+                let defaultArgument: Symbol?
+                if let defaultArgumentContext = $0.default_argument_clause() {
+                    defaultArgument = Symbol(
+                        value: defaultArgumentContext.getText(),
+                        location: defaultArgumentContext.getStartLocation())
+                } else {
+                    defaultArgument = nil
+                }
+
+                let externalName: Symbol?
+                if let externalNameContext = $0.external_parameter_name() {
+                    externalName = Symbol(
+                        value: externalNameContext.getText(),
+                        location: externalNameContext.getStartLocation())
+                } else {
+                    externalName = nil
+                }
+
+                let localName: Symbol?
+                if let localNameContext = $0.local_parameter_name() {
+                    localName = Symbol(
+                        value: localNameContext.getText(),
+                        location: localNameContext.getStartLocation())
+                } else {
+                    localName = nil
+                }
+
+                let typeAnnotation: Symbol?
+                if let typeAnnotationContext = $0.type_annotation() {
+                    typeAnnotation = Symbol(
+                        value: typeAnnotationContext.getText(),
+                        location: typeAnnotationContext.getStartLocation())
+                } else {
+                    typeAnnotation = nil
+                }
+
+                return Parameter(
+                    defaultArgument: defaultArgument,
+                    externalName: externalName,
+                    localName: localName,
+                    typeAnnotation: typeAnnotation
+                )
                 }) ?? [])
 
         if let actionsForKind = actions[SyntaxKind.FunctionDeclaration] {
@@ -64,5 +104,14 @@ open class Visitor: SwiftBaseVisitor<String> {
             }
         }
         return super.visitFunction_declaration(ctx)
+    }
+}
+
+extension ParserRuleContext {
+    func getStartLocation() -> Location {
+        if let token = self.getStart() {
+            return Location(line: token.getLine(), column: token.getCharPositionInLine() + 1);
+        }
+        return Location.Default
     }
 }

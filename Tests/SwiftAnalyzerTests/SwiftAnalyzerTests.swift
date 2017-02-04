@@ -5,14 +5,14 @@ import Antlr4
 class SwiftAnalyzerTests: XCTestCase {
     func testExample() {
         let diagnostics = Analyzer().analyzeSourceCode(sourceCode:
-            "class Bar" +
-                "{" +
-                "    func barMethod(int int: Int)" +
-                "    {" +
-                "    }" +
-            "}")
+            "class Bar\n" +
+                "{\n" +
+                "    func barMethod(int int: Int)\n" +
+                "    {\n" +
+                "    }\n" +
+            "}\n")
         let expectation: [Diagnostic] = [
-            Diagnostic(location: "", messageArgs: ["int"], diagnosticDescriptor: IdentifiersShouldNotContainTypeNames.diagnosticDescriptor)
+            Diagnostic(location: Location(line: 3, column: 20), messageArgs: ["int"], diagnosticDescriptor: IdentifiersShouldNotContainTypeNames.diagnosticDescriptor)
         ]
         XCTAssertEqual(diagnostics, expectation)
     }

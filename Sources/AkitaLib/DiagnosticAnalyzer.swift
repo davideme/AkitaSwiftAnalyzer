@@ -8,11 +8,27 @@
 
 import Foundation
 
+struct Location: Equatable {
+    let line: Int
+    let column: Int
+
+    static let Default = Location(line: 0, column: 0)
+
+    public static func ==(lhs: Location, rhs: Location) -> Bool {
+        return lhs.line == rhs.line && lhs.column == rhs.column
+    }
+}
+
+struct Symbol {
+    let value: String
+    let location: Location
+}
+
 struct Parameter {
-    let defaultArgument: String?
-    let externalName: String?
-    let localName: String?
-    let typeAnnotation: String?
+    let defaultArgument: Symbol?
+    let externalName: Symbol?
+    let localName: Symbol?
+    let typeAnnotation: Symbol?
 }
 
 enum SyntaxNodeAnalysisContext {
@@ -31,12 +47,21 @@ protocol AnalysisContext {
     mutating func reportDiagnostic(diagnostic: Diagnostic)
 }
 
-struct DiagnosticDescriptor {
+struct DiagnosticDescriptor: Equatable {
     let id: String
     let title: String
     let description: String
     let isEnabledByDefault: Bool
     let severity: Severity
+
+    public static func ==(lhs: DiagnosticDescriptor, rhs: DiagnosticDescriptor) -> Bool {
+        return lhs.id == rhs.id
+        && lhs.title == rhs.title
+        && lhs.description == rhs.description
+        && lhs.isEnabledByDefault == rhs.isEnabledByDefault
+        && lhs.severity == rhs.severity
+    }
+
 }
 
 protocol DiagnosticAnalyzer {

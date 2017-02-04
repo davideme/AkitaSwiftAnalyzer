@@ -9,7 +9,7 @@
 import Foundation
 
 public struct Diagnostic: Equatable {
-    let location: String
+    let location: Location
     let messageArgs: [String]
     let diagnosticDescriptor: DiagnosticDescriptor
     var reason: String {
@@ -17,7 +17,9 @@ public struct Diagnostic: Equatable {
     }
 
     public static func ==(lhs: Diagnostic, rhs: Diagnostic) -> Bool {
-        return true
+        return lhs.location == rhs.location
+        && lhs.messageArgs == rhs.messageArgs
+        && lhs.diagnosticDescriptor == rhs.diagnosticDescriptor
     }
 }
 
