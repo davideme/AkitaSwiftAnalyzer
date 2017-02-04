@@ -52,7 +52,7 @@ class IdentifiersShouldNotContainTypeNames : DiagnosticAnalyzer {
 
                 if self.typesIdentifiers.contains(externalName.value.lowercased()) {
                     let diagnostic =
-                        Diagnostic(location: externalName.location, messageArgs: [""], diagnosticDescriptor: IdentifiersShouldNotContainTypeNames.diagnosticDescriptor)
+                        Diagnostic(location: externalName.location, messageArgs: [externalName.value], diagnosticDescriptor: IdentifiersShouldNotContainTypeNames.diagnosticDescriptor)
                     self.context.reportDiagnostic(diagnostic: diagnostic)
                 }
             }
