@@ -2,8 +2,8 @@ import XCTest
 import Antlr4
 @testable import AkitaLib
 
-class SwiftAnalyzerTests: XCTestCase {
-    func testExample() {
+class IdentifiersShouldNotContainTypeNamesTests: XCTestCase {
+    func testNoDiagnostic() {
         let diagnostics = Analyzer().analyzeSourceCode(sourceCode:
             "class Bar\n" +
                 "{\n" +
@@ -17,9 +17,9 @@ class SwiftAnalyzerTests: XCTestCase {
         XCTAssertEqual(diagnostics, expectation)
     }
 
-    static var allTests : [(String, (SwiftAnalyzerTests) -> () throws -> Void)] {
+    static var allTests : [(String, (IdentifiersShouldNotContainTypeNamesTests) -> () throws -> Void)] {
         return [
-            ("testExample", testExample),
+            ("testNoDiagnostic", testNoDiagnostic),
         ]
     }
 }
