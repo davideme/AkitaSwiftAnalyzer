@@ -34,12 +34,17 @@ struct Parameter {
 enum SyntaxNodeAnalysisContext {
     case Unkown
     case Function(body: String?, head: String?, name: String?, parameters: [Parameter])
+    case Class(name: Symbol?)
 }
 enum SyntaxKind: Int {
     case Statement
     case ConstantDeclaration
     case VariableDeclaration
     case FunctionDeclaration
+    case ClassDeclaration
+    case EnumDeclaration
+    case StructDeclaration
+    case ProtocolDeclaration
 }
 
 protocol AnalysisContext {

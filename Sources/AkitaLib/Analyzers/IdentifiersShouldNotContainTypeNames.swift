@@ -37,28 +37,37 @@ class IdentifiersShouldNotContainTypeNames : DiagnosticAnalyzer {
 
     /// Called once at session start to register actions in the analysis context.
     func initialize() {
-        context.registerSymbolAction(action: self.AnalyzeNode, syntaxKinds: SyntaxKind.FunctionDeclaration, SyntaxKind.ConstantDeclaration, SyntaxKind.VariableDeclaration)
+        context.registerSymbolAction(action: self.AnalyzeNode, syntaxKinds: .FunctionDeclaration, .ConstantDeclaration, .VariableDeclaration, .ClassDeclaration)
     }
 
     func AnalyzeNode(syntaxNodeAnalysisContext:
         SyntaxNodeAnalysisContext) {
         switch syntaxNodeAnalysisContext {
+        case let .Class(name):
+            guard let name = name else {
+                return
+            }
+
+            analyzeSymbol(symbol: name)
         case let .Function(_, _, _, paramaters):
 
             paramaters.forEach{
                 guard let externalName = $0.externalName else {
                     return
                 }
-
-                if self.typesIdentifiers.contains(externalName.value.lowercased()) {
-                    let diagnostic =
-                        Diagnostic(location: externalName.location, messageArgs: [externalName.value], diagnosticDescriptor: IdentifiersShouldNotContainTypeNames.diagnosticDescriptor)
-                    self.context.reportDiagnostic(diagnostic: diagnostic)
-                }
+                analyzeSymbol(symbol: externalName)
             }
             break
 
         default: break
+        }
+    }
+
+    private func analyzeSymbol(symbol: Symbol) {
+        if self.typesIdentifiers.contains(symbol.value.lowercased()) {
+            let diagnostic =
+                Diagnostic(location: symbol.location, messageArgs: [symbol.value], diagnosticDescriptor: IdentifiersShouldNotContainTypeNames.diagnosticDescriptor)
+            self.context.reportDiagnostic(diagnostic: diagnostic)
         }
     }
 }

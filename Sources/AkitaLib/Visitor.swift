@@ -18,6 +18,33 @@ open class Visitor: SwiftBaseVisitor<String> {
         return super.visitTop_level(ctx)
     }
 
+    open override func visitClass_declaration(_ ctx: SwiftParser.Class_declarationContext) -> String? {
+        
+        let className = ctx.class_name().map {
+            Symbol(value: $0.getText(), location: $0.getStartLocation())
+        }
+
+        if let actionsForKind = actions[SyntaxKind.ClassDeclaration] {
+            for action in actionsForKind {
+                action(.Class(name: className))
+            }
+        }
+        return super.visitClass_declaration(ctx)
+    }
+
+    open override func visitEnum_declaration(_ ctx: SwiftParser.Enum_declarationContext) -> String? {
+        return super.visitEnum_declaration(ctx)
+    }
+
+    open override func visitStruct_declaration(_ ctx: SwiftParser.Struct_declarationContext) -> String? {
+        return super.visitStruct_declaration(ctx)
+    }
+
+    open override func visitProtocol_declaration(_ ctx: SwiftParser.Protocol_declarationContext) -> String? {
+        return super.visitProtocol_declaration(ctx)
+    }
+
+
     open override func visitStatement(_ ctx: SwiftParser.StatementContext) -> String? {
 
         if let actionsForKind = actions[SyntaxKind.Statement] {

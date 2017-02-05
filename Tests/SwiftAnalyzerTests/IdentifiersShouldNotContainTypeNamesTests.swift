@@ -12,6 +12,17 @@ class IdentifiersShouldNotContainTypeNamesTests: XCTestCase {
         XCTAssertEqual(diagnostics, expectation)
     }
 
+    func testClassNameDiagnostic() {
+        let diagnostics = Analyzer().analyzeSourceCode(sourceCode:
+            "class Double\n" +
+                "{\n" +
+            "}\n")
+        let expectation: [Diagnostic] = [
+            Diagnostic(location: Location(line: 1, column: 7), messageArgs: ["Double"], diagnosticDescriptor: IdentifiersShouldNotContainTypeNames.diagnosticDescriptor)
+        ]
+        XCTAssertEqual(diagnostics, expectation)
+    }
+
     static var allTests : [(String, (IdentifiersShouldNotContainTypeNamesTests) -> () throws -> Void)] {
         return [
             ("testNoDiagnostic", testNoDiagnostic),
