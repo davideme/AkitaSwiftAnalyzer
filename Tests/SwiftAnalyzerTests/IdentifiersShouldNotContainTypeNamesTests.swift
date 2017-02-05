@@ -5,15 +5,10 @@ import Antlr4
 class IdentifiersShouldNotContainTypeNamesTests: XCTestCase {
     func testNoDiagnostic() {
         let diagnostics = Analyzer().analyzeSourceCode(sourceCode:
-            "class Bar\n" +
-                "{\n" +
-                "    func barMethod(int int: Int)\n" +
-                "    {\n" +
-                "    }\n" +
+            "class IntA\n" +
+            "{\n" +
             "}\n")
-        let expectation: [Diagnostic] = [
-            Diagnostic(location: Location(line: 3, column: 20), messageArgs: ["int"], diagnosticDescriptor: IdentifiersShouldNotContainTypeNames.diagnosticDescriptor)
-        ]
+        let expectation: [Diagnostic] = []
         XCTAssertEqual(diagnostics, expectation)
     }
 
